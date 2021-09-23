@@ -1,0 +1,51 @@
+{
+  "name": "distree",
+  "version": "1.0.0",
+  "license": "MPL-2.0",
+  "description": "Directory structure trees upon plain objects.",
+  "author": "Yu Shimura <mail@yuhr.org>",
+  "homepage": "https://github.com/yuhr/distree#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yuhr/distree.git"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "types": "./dist/index.d.ts",
+  "module": "./dist/index.mjs",
+  "main": "./dist/index.cjs",
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.mjs"
+    },
+    "./*": {
+      "source": "./src/*.ts",
+      "types": "./dist/*.d.ts",
+      "require": "./dist/*.cjs",
+      "import": "./dist/*.mjs",
+      "default": "./dist/*.mjs"
+    }
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.29.3",
+    "@typescript-eslint/parser": "^4.29.3",
+    "eclint": "^2.8.1",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-consistent-default-export-name": "^0.0.6",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-unused-imports": "^1.1.4",
+    "husky": "^7.0.2",
+    "lint-staged": "^11.1.2",
+    "prettier": "npm:@yuhr/prettier@^2.3.2",
+    "prettier-plugin-md-nocjsp": "^1.1.1",
+    "typescript": "^4.4.3"
+  }
+}

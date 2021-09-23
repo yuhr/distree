@@ -1,0 +1,13 @@
+$schema: https://x.nest.land/eggs@0.3.8/src/schema.json
+name: distree
+entry: ./src/index.ts
+description: "Directory structure trees upon plain objects."
+homepage: "https://github.com/yuhr/distree"
+version: 1.0.0
+unstable: true
+unlisted: false
+files:
+  - ./src/*.ts
+check: true
+checkFormat: false
+checkTests: false
