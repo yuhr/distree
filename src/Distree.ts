@@ -2,18 +2,16 @@
  * A frozen plain object that accepts paths as index reference. It also supports `Symbol.iterator` interface that enumerates nested leaves with the keys being paths.
  */
 export type Distree<T> = {
-  readonly [key: string]: Distree<T> | T | undefined
-  [Symbol.iterator](): Iterator<[string, T]>
+	readonly [key: string]: Distree<T> | T | undefined
+	[Symbol.iterator](): Iterator<[string, T]>
 }
 
 export const symbol: unique symbol = Symbol()
 
 export const isPlainObject = (value: unknown): value is object => {
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    Object.getPrototypeOf(value) === Object.prototype
-  )
+	return (
+		typeof value === "object" && value !== null && Object.getPrototypeOf(value) === Object.prototype
+	)
 }
 
 /**
@@ -22,7 +20,7 @@ export const isPlainObject = (value: unknown): value is object => {
  * @param value The value to be tested.
  */
 export const isDistree = <T>(value: unknown): value is Distree<T> => {
-  return isPlainObject(value) && symbol in value
+	return isPlainObject(value) && symbol in value
 }
 
 /**
@@ -34,11 +32,10 @@ export const isDistree = <T>(value: unknown): value is Distree<T> => {
  * @param value The value to be tested.
  */
 export const isEmpty = <T>(value: Distree<T> | T | undefined): boolean => {
-  return (
-    value === undefined ||
-    ((isPlainObject(value) || Array.isArray(value)) &&
-      Object.keys(value).length === 0)
-  )
+	return (
+		value === undefined ||
+		((isPlainObject(value) || Array.isArray(value)) && Object.keys(value).length === 0)
+	)
 }
 
 export default Distree

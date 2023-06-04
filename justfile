@@ -1,11 +1,15 @@
 @_:
-  just --list
+	just --list
+
+setup:
+	chmod +x .githooks/*
+	git config --local core.hooksPath .githooks
 
 test:
-  deno test --import-map=tests/import-map.json --allow-net tests
+	deno test --import-map=tests/import-map.json --allow-net tests
 
 bundle:
-  deno run --allow-read='./' --allow-write='./dist' --allow-net --allow-env --unstable --no-check bundle.ts
+	deno run --allow-read='./' --allow-write='./dist' --allow-net --allow-env --unstable --no-check bundle.ts
 
 pack: bundle
-  npm pack
+	cd dist && pnpm pack

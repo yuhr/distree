@@ -1,41 +1,41 @@
-import locate from "./locate.ts"
-import isDistree from "./isDistree.ts"
-import from from "./from.ts"
 import Distree, { isEmpty } from "./Distree.ts"
+import from from "./from.ts"
+import isDistree from "./isDistree.ts"
+import locate from "./locate.ts"
 
 const rec = <T>(
-  components: string[],
-  resolved: Distree<T> | T | undefined,
-  parent: Distree<T>,
-  value: Distree<T> | T | undefined,
+	components: string[],
+	resolved: Distree<T> | T | undefined,
+	parent: Distree<T>,
+	value: Distree<T> | T | undefined,
 ): Distree<T> | T | undefined => {
-  if (components.length === 0) return value
-  else {
-    const [component, ...rest] = components
-    const distree = isDistree(resolved) ? resolved : from<T>({})
-    switch (component) {
-      case "":
-      case ".":
-      case "..": {
-        const tmp = rec(rest, distree[component], parent, value) as Distree<T>
-        const ancestor = from<T>(tmp)
-        const relative = locate(distree, distree[component] as Distree<T>)
-        const self = ancestor[relative]
-        return self
-      }
-      default: {
-        const tmp = rec(rest, distree[component!], parent, value)
-        if (isEmpty(tmp)) {
-          const content = { ...distree }
-          delete content[component!]
-          return from<T>(content)
-        } else {
-          const content = { ...distree, [component!]: tmp }
-          return from<T>(content)
-        }
-      }
-    }
-  }
+	if (components.length === 0) return value
+	else {
+		const [component, ...rest] = components
+		const distree = isDistree(resolved) ? resolved : from<T>({})
+		switch (component) {
+			case "":
+			case ".":
+			case "..": {
+				const tmp = rec(rest, distree[component], parent, value) as Distree<T>
+				const ancestor = from<T>(tmp)
+				const relative = locate(distree, distree[component] as Distree<T>)
+				const self = ancestor[relative]
+				return self
+			}
+			default: {
+				const tmp = rec(rest, distree[component!], parent, value)
+				if (isEmpty(tmp)) {
+					const content = { ...distree }
+					delete content[component!]
+					return from<T>(content)
+				} else {
+					const content = { ...distree, [component!]: tmp }
+					return from<T>(content)
+				}
+			}
+		}
+	}
 }
 
 /**
@@ -49,10 +49,10 @@ const rec = <T>(
  * @param value The new value .
  */
 const replace =
-  <T>(distree: Distree<T>) =>
-  ([path, value]: [string, Distree<T> | T | undefined]): Distree<T> => {
-    const components = path.split("/")
-    return rec(components, distree, distree, value) as Distree<T>
-  }
+	<T>(distree: Distree<T>) =>
+	([path, value]: [string, Distree<T> | T | undefined]): Distree<T> => {
+		const components = path.split("/")
+		return rec(components, distree, distree, value) as Distree<T>
+	}
 
 export default replace
