@@ -22,7 +22,6 @@
 		"eslint-plugin-prefer-arrow-functions": "^3.1.4",
 		"eslint-plugin-unused-imports": "^2.0.0",
 		"lint-staged": "^13.2.2",
-		"pkg-dir": "^5",
 		"prettier": "npm:@yuhr/prettier@^2.8.7",
 		"typescript": "^5.0.4"
 	}

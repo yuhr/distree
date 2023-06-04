@@ -31,9 +31,6 @@ devDependencies:
   lint-staged:
     specifier: ^13.2.2
     version: 13.2.2
-  pkg-dir:
-    specifier: ^5
-    version: 5.0.0
   prettier:
     specifier: npm:@yuhr/prettier@^2.8.7
     version: /@yuhr/prettier@2.8.7
