@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"license": "MPL-2.0",
 	"description": "Directory structure trees upon plain objects.",
-	"author": "Yu Shimura <mail@yuhr.org>",
+	"author": "Sʜɪᴍᴜʀᴀ Yū <mail@yuhr.org>",
 	"homepage": "https://github.com/yuhr/distree#readme",
 	"repository": {
 		"type": "git",
@@ -11,28 +11,6 @@
 	},
 	"type": "module",
 	"sideEffects": false,
-	"files": [
-		"dist"
-	],
-	"types": "./dist/index.d.ts",
-	"module": "./dist/index.mjs",
-	"main": "./dist/index.cjs",
-	"exports": {
-		".": {
-			"source": "./src/index.ts",
-			"types": "./dist/index.d.ts",
-			"require": "./dist/index.cjs",
-			"import": "./dist/index.mjs",
-			"default": "./dist/index.mjs"
-		},
-		"./*": {
-			"source": "./src/*.ts",
-			"types": "./dist/*.d.ts",
-			"require": "./dist/*.cjs",
-			"import": "./dist/*.mjs",
-			"default": "./dist/*.mjs"
-		}
-	},
 	"devDependencies": {
 		"@typescript-eslint/eslint-plugin": "^5.59.5",
 		"@typescript-eslint/parser": "^5.59.5",
