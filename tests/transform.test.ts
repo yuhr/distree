@@ -1,7 +1,7 @@
 import from from "../src/from.ts"
 import transform from "../src/transform.ts"
 
-Deno.test("resolve", async () => {
+Deno.test("transform", async () => {
 	const { assertEquals } = await import("std/testing/asserts.ts")
 
 	const init = {
