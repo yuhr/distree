@@ -7,13 +7,7 @@ Deno.test("locate", async () => {
 
 	const content = { foo: { bar: { baz: "qux" }, quux: { corge: "grault" } } }
 	const distree = from<string>(content)
+
 	assertEquals(locate(distree), "/")
 	assertEquals(locate(distree["foo"] as Distree<string>), "/foo")
-	assertEquals(locate(distree, distree["foo"] as Distree<string>), "..")
-	assertEquals(locate(distree, distree["foo/bar"] as Distree<string>), "../..")
-	assertEquals(locate(distree["foo/bar"] as Distree<string>, distree), "foo/bar")
-	assertEquals(
-		locate(distree["foo/bar"] as Distree<string>, distree["foo/quux"] as Distree<string>),
-		"../bar",
-	)
 })

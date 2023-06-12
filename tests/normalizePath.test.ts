@@ -1,0 +1,20 @@
+import { normalizePath } from "../src/normalizePath.ts"
+
+Deno.test("normalizePath", async () => {
+	const { assertEquals } = await import("std/testing/asserts.ts")
+	// const { normalize } = await import("std/path/posix.ts")
+	const assert = (a: string, b: string) => assertEquals(normalizePath(a), b)
+	assert("/foo/bar/baz", "/foo/bar/baz")
+	assert("./../hello", "../hello")
+	assert("hello/../hello", "hello")
+	assert("/", "/")
+	assert("", ".")
+	assert("hello/../hello/.", "hello")
+	assert("hello/../world/.", "world")
+	assert("../../hello/../..", "../../..")
+	assert("../../..//./././", "../../..")
+	assert("/../../..//./././", "/")
+	assert("/../../../foo/bar/baz/", "/foo/bar/baz")
+	assert("/../../../foo/bar/baz/../../", "/foo")
+	assert("/foo/./../foo/bar///baz", "/foo/bar/baz")
+})

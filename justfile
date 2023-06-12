@@ -6,7 +6,7 @@ setup:
 	git config --local core.hooksPath .githooks
 
 test:
-	deno test --import-map=tests/import-map.json --allow-net tests
+	deno test --allow-net --allow-read tests
 
 bundle:
 	deno run -A bundle.ts
