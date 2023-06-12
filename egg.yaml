@@ -3,8 +3,8 @@ name: distree
 entry: ./src/index.ts
 description: Directory structure trees upon plain objects.
 homepage: https://github.com/yuhr/distree
-version: 1.0.0
-unstable: true
+version: 2.0.0
+unstable: false
 unlisted: false
 files:
   - ./src/*.ts
