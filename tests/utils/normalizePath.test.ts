@@ -1,4 +1,6 @@
-import { normalizePath } from "../src/normalizePath.ts"
+// SPDX-License-Identifier: CC0-1.0
+
+import { normalizePath } from "../../utils/normalizePath.ts"
 
 Deno.test("normalizePath", async () => {
 	const { assertEquals } = await import("std/testing/asserts.ts")
@@ -12,8 +14,8 @@ Deno.test("normalizePath", async () => {
 	assert("hello/../hello/.", "hello")
 	assert("hello/../world/.", "world")
 	assert("../../hello/../..", "../../..")
-	assert("../../..//./././", "../../..")
-	assert("/../../..//./././", "/")
+	assert("../../.././././", "../../..")
+	assert("/../../.././././", "/")
 	assert("/../../../foo/bar/baz/", "/foo/bar/baz")
 	assert("/../../../foo/bar/baz/../../", "/foo")
 	assert("/foo/./../foo/bar///baz", "/foo/bar/baz")

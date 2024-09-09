@@ -1,16 +1,18 @@
-import fromDirectory from "../src/fromDirectory.ts"
-import transform from "../src/transform.ts"
+// SPDX-License-Identifier: CC0-1.0
+
+import fromDirectory from "../fromDirectory.ts"
+import transform from "../transform.ts"
 import { assertExists, assertEquals, assertFalse } from "std/testing/asserts.ts"
 
 Deno.test("fromDirectory", async () => {
-	const distree = await fromDirectory("src", /Distree/)
+	const distree = await fromDirectory("..", /Distree/)
 	assertExists(distree["isDistree.ts"])
 	assertExists(distree["Distree.ts"])
 	assertFalse(distree["from.ts"])
 })
 
 Deno.test("prevent prototype pollution", async () => {
-	const distree = transform(await fromDirectory("tests/fromDirectory"), () => ({ polluted: true }))
+	const distree = transform(await fromDirectory("fromDirectory"), () => ({ polluted: true }))
 
 	assertEquals(
 		Deno.inspect(distree),

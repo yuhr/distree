@@ -5,5 +5,9 @@
 		"alwaysStrict": true,
 		"exactOptionalPropertyTypes": true,
 		"noUncheckedIndexedAccess": true
+	},
+	"imports": {
+		"std/": "https://lib.deno.dev/std@0.190/",
+		"x/": "https://lib.deno.dev/x/"
 	}
 }

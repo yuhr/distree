@@ -1,4 +1,6 @@
-import Distree from "./Distree.ts"
+// SPDX-License-Identifier: MPL-2.0
+
+import type Distree from "./Distree.ts"
 
 /**
  * Generates over ancestors of a distree. Note that it yields the passed distree at first.

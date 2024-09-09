@@ -1,5 +1,7 @@
-import { isPlainObject } from "./isPlainObject.ts"
-import { normalizePath } from "./normalizePath.ts"
+// SPDX-License-Identifier: MPL-2.0
+
+import { isPlainObject } from "./utils/isPlainObject.ts"
+import { normalizePath } from "./utils/normalizePath.ts"
 
 /**
  * A frozen plain object that accepts paths as index reference. It also supports `Symbol.iterator` interface that enumerates nested values.
