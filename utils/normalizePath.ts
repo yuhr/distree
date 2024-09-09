@@ -1,3 +1,10 @@
+// SPDX-License-Identifier: MPL-2.0
+
+/**
+ * @license MPL-2.0
+ * @module
+ */
+
 /**
  * @private
  */

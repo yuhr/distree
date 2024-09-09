@@ -1,5 +1,7 @@
-import from from "../src/from.ts"
-import transform from "../src/transform.ts"
+// SPDX-License-Identifier: CC0-1.0
+
+import from from "../from.ts"
+import transform from "../transform.ts"
 
 Deno.test("transform", async () => {
 	const { assertEquals } = await import("std/testing/asserts.ts")

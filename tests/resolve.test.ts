@@ -1,6 +1,8 @@
-import Distree from "../src/Distree.ts"
-import from from "../src/from.ts"
-import isDistree from "../src/isDistree.ts"
+// SPDX-License-Identifier: CC0-1.0
+
+import type Distree from "../Distree.ts"
+import from from "../from.ts"
+import isDistree from "../isDistree.ts"
 
 Deno.test("resolve", async () => {
 	const { assertEquals } = await import("std/testing/asserts.ts")

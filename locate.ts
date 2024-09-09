@@ -1,6 +1,8 @@
-import Distree from "./Distree.ts"
+// SPDX-License-Identifier: MPL-2.0
+
+import type Distree from "./Distree.ts"
 import ancestors from "./ancestors.ts"
-import { normalizePath } from "./normalizePath.ts"
+import { normalizePath } from "./utils/normalizePath.ts"
 
 /**
  * Locates the path where the distree is placed at in the entire distree.

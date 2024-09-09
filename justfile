@@ -4,9 +4,11 @@
 setup:
 	chmod +x .githooks/*
 	git config --local core.hooksPath .githooks
+	corepack enable
+	pnpm install
 
 test:
-	deno test --allow-net --allow-read tests
+	cd tests && deno test --allow-net --allow-read --import-map import-map.json
 
 bundle:
 	deno run -A bundle.ts

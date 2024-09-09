@@ -1,4 +1,6 @@
-import from from "../src/from.ts"
+// SPDX-License-Identifier: CC0-1.0
+
+import from from "../from.ts"
 
 Deno.test("iterator", async () => {
 	const { assertEquals } = await import("std/testing/asserts.ts")

@@ -1,4 +1,6 @@
-import Distree from "./Distree.ts"
+// SPDX-License-Identifier: MPL-2.0
+
+import type Distree from "./Distree.ts"
 import from from "./from.ts"
 import transform from "./transform.ts"
 import transformAsync from "./transformAsync.ts"

@@ -1,4 +1,6 @@
-import Distree from "./Distree.ts"
+// SPDX-License-Identifier: MPL-2.0
+
+import type Distree from "./Distree.ts"
 import ancestors from "./ancestors.ts"
 import from from "./from.ts"
 import fromDirectory from "./fromDirectory.ts"

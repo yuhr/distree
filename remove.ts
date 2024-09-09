@@ -1,8 +1,10 @@
-import Distree from "./Distree.ts"
+// SPDX-License-Identifier: MPL-2.0
+
+import type Distree from "./Distree.ts"
 import from from "./from.ts"
 import isDistree from "./isDistree.ts"
 import locate from "./locate.ts"
-import { normalizePath } from "./normalizePath.ts"
+import { normalizePath } from "./utils/normalizePath.ts"
 
 const rec = <T>(components: string[], resolved: Distree<T> | T): Distree<T> => {
 	if (components.length === 1) {
