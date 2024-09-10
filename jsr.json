@@ -1,0 +1,21 @@
+{
+	"$schema": "https://jsr.io/schema/config-file.v1.json",
+	"name": "@yuhr/distree",
+	"version": "2.0.0",
+	"exports": {
+		".": "./index.ts",
+		"./Distree": "./Distree.ts",
+		"./ancestors": "./ancestors.ts",
+		"./from": "./from.ts",
+		"./fromDirectory": "./fromDirectory.ts",
+		"./insert": "./insert.ts",
+		"./isDistree": "./isDistree.ts",
+		"./locate": "./locate.ts",
+		"./remove": "./remove.ts",
+		"./transform": "./transform.ts",
+		"./transformAsync": "./transformAsync.ts"
+	},
+	"publish": {
+		"include": ["LICENSES", "README.md", "*.ts", "utils/*.ts"]
+	}
+}
