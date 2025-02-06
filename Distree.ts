@@ -15,7 +15,7 @@ type Distree<T> = {
 }
 
 namespace Distree {
-	export type Initializer<T> = Distree<T> | { readonly [key: string]: Initializer<T> | T }
+	export type Initializer<T> = Distree<T> | { readonly [key: string]: ItemInitializer<T> }
 	export type ItemInitializer<T> = Distree<T> | T | { readonly [key: string]: ItemInitializer<T> }
 }
 
@@ -29,13 +29,13 @@ type DistreeInternal<T> = {
 }
 
 namespace DistreeInternal {
-	export type Initializer<T> = DistreeInternal<T> | { [key: string]: Initializer<T> | T }
+	export type Initializer<T> = DistreeInternal<T> | { [key: string]: ItemInitializer<T> }
 	export type ItemInitializer<T> = DistreeInternal<T> | T | { [key: string]: ItemInitializer<T> }
 }
 
 type Metadata<T> = { root: DistreeInternal<T> }
 
-const symbol: unique symbol = Symbol()
+const symbol: unique symbol = Symbol.for("distree/Distree")
 
 /**
  * Tests if a value is a distree.
