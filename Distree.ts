@@ -49,7 +49,6 @@ const isDistree = <T>(value: unknown): value is Distree<T> => {
 const readonly = {
 	configurable: false,
 	enumerable: false,
-	writable: false,
 } as const satisfies PropertyDescriptor
 
 const resolve = <T>(
@@ -95,15 +94,10 @@ const rec = <T>(
 
 	// Populate as a distree
 	Object.defineProperties(distree, {
-		[symbol]: { ...readonly, value: { root: parent?.[symbol].root ?? distree } },
-		".": { ...readonly, value: distree },
-		"..": { ...readonly, value: parent ?? distree },
-		[Symbol.iterator]: {
-			...readonly,
-			*value() {
-				yield* iterate(distree, undefined)
-			},
-		},
+		[symbol]: { ...readonly, get: () => ({ root: parent?.[symbol].root ?? distree }) },
+		".": { ...readonly, get: () => distree },
+		"..": { ...readonly, get: () => parent ?? distree },
+		[Symbol.iterator]: { ...readonly, get: () => () => iterate(distree, undefined) },
 	})
 
 	// Copy contents into the new distree
