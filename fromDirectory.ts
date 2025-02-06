@@ -4,16 +4,19 @@ import type Distree from "./Distree.ts"
 import from from "./from.ts"
 import transform from "./transform.ts"
 import transformAsync from "./transformAsync.ts"
+import { readdir, lstat } from "https://esm.sh/jsr/@cross/fs@0.1.11"
+import { resolve } from "https://esm.sh/jsr/@std/path@1.0.8/resolve.ts"
 
 const rec = async (path: string): Promise<typeof content> => {
 	const content: { [key: string]: typeof content | string } = Object.create(null)
-	for await (const item of Deno.readDir(path)) {
-		const pathItem = path + "/" + item.name
-		if (item.isDirectory) {
-			const [key, value] = [item.name, await rec(pathItem)]
+	for (const pathItemRelative of await readdir(path)) {
+		const pathItem = resolve(path, pathItemRelative)
+		const item = await lstat(pathItem, {})
+		if (item.isFile()) {
+			const [key, value] = [pathItemRelative, pathItem]
 			content[key] = value
-		} else if (item.isFile) {
-			const [key, value] = [item.name, pathItem]
+		} else if (item.isDirectory()) {
+			const [key, value] = [pathItemRelative, await rec(pathItem)]
 			content[key] = value
 		} else {
 			// TODO: handle symlinks (breaking change)
