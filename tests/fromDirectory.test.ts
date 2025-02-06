@@ -2,7 +2,7 @@
 
 import fromDirectory from "../fromDirectory.ts"
 import transform from "../transform.ts"
-import { assertExists, assertEquals, assertFalse } from "std/testing/asserts.ts"
+import { assertExists, assertEquals, assertFalse } from "@std/assert"
 
 Deno.test("fromDirectory", async () => {
 	const distree = await fromDirectory("..", /Distree/)

@@ -3,21 +3,17 @@
 import type Distree from "../Distree.ts"
 import from from "../from.ts"
 import remove from "../remove.ts"
+import { assertEquals } from "@std/assert"
 
 Deno.test("remove", async () => {
-	const { assertEquals } = await import("std/testing/asserts.ts")
 	const init = { foo: { bar: { baz: "qux" }, quux: { corge: "grault" } } }
 	const distree = from(init)
 	assertEquals(
 		remove(distree, "foo/bar/baz"),
-		from({
-			foo: { bar: {}, quux: { corge: "grault" } },
-		}),
+		from({ foo: { bar: {}, quux: { corge: "grault" } } }),
 	)
 	assertEquals(
 		remove(distree["foo/bar"] as Distree<string>, "baz"),
-		from({
-			foo: { bar: {}, quux: { corge: "grault" } },
-		}),
+		from({ foo: { bar: {}, quux: { corge: "grault" } } }),
 	)
 })

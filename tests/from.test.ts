@@ -2,10 +2,9 @@
 
 import type Distree from "../Distree.ts"
 import from from "../from.ts"
+import { assertThrows, assertEquals } from "@std/assert"
 
 Deno.test("from", async () => {
-	const { assertThrows, assertEquals } = await import("std/testing/asserts.ts")
-
 	const init = { foo: { bar: { baz: "qux" } } }
 
 	const distree = from<string>(init)
@@ -32,8 +31,6 @@ Deno.test("from", async () => {
 })
 
 Deno.test("prevent prototype pollution", async () => {
-	const { assertEquals } = await import("std/testing/asserts.ts")
-
 	from({
 		constructor: { prototype: { polluted: 1 } },
 		prototype: { polluted: 2 },
@@ -44,7 +41,6 @@ Deno.test("prevent prototype pollution", async () => {
 })
 
 Deno.test("reject non plain objects", async () => {
-	const { assertThrows } = await import("std/testing/asserts.ts")
 	assertThrows(() => from({ __proto__: { polluted: 0 } }))
 	assertThrows(() => from(Object.create(null)))
 })

@@ -8,7 +8,7 @@ setup:
 	pnpm install
 
 test:
-	cd tests && deno test --allow-net --allow-read --import-map import-map.json
+	cd tests && deno test --allow-net --allow-read --unstable-unsafe-proto
 
 bundle:
 	deno run -A bundle.ts
