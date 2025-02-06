@@ -17,7 +17,7 @@ Directory structure trees upon plain objects.
 ## Usage
 
 ```ts
-import { assertEquals } from "https://deno.land/std/testing/asserts.ts"
+import { assertEquals } from "https://esm.sh/jsr/@std/assert@1.0.11"
 import Distree from "https://deno.land/x/distree/index.ts"
 
 const init = { foo: { bar: { baz: "qux" } } }
