@@ -3,9 +3,9 @@
 import { isDistree } from "../Distree.ts"
 import from from "../from.ts"
 import insert from "../insert.ts"
+import { assertEquals } from "@std/assert"
 
 Deno.test("insert", async () => {
-	const { assertEquals } = await import("std/testing/asserts.ts")
 	const assertSeparateButSameShape = (a: unknown) => (b: unknown) => {
 		assertEquals(a === b, false)
 		assertEquals(a, b)
@@ -49,8 +49,6 @@ Deno.test("insert", async () => {
 })
 
 Deno.test("prevent prototype pollution", async () => {
-	const { assertEquals } = await import("std/testing/asserts.ts")
-
 	let distree = from({})
 	distree = insert(distree, ["__proto__", Object.prototype])
 	distree = insert(distree, ["constructor/prototype", Object.prototype])

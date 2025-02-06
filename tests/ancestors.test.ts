@@ -3,10 +3,9 @@
 import type Distree from "../Distree.ts"
 import ancestors from "../ancestors.ts"
 import from from "../from.ts"
+import { assertEquals } from "@std/assert"
 
 Deno.test("ancestors", async () => {
-	const { assertEquals } = await import("std/testing/asserts.ts")
-
 	const content = { foo: { bar: { baz: "qux" }, quux: { corge: "grault" } } }
 	const distree = from<string>(content)
 

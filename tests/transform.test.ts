@@ -2,13 +2,10 @@
 
 import from from "../from.ts"
 import transform from "../transform.ts"
+import { assertEquals } from "@std/assert"
 
 Deno.test("transform", async () => {
-	const { assertEquals } = await import("std/testing/asserts.ts")
-
-	const init = {
-		foo: { bar: { baz: "qux" } },
-	}
+	const init = { foo: { bar: { baz: "qux" } } }
 
 	const distree = from<string>(init)
 	assertEquals(
