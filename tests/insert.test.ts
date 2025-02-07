@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: CC0-1.0
 
-import { isDistree } from "../Distree.ts"
-import from from "../from.ts"
-import insert from "../insert.ts"
 import { assertEquals } from "@std/assert"
+import { isDistree } from "distree/Distree.ts"
+import from from "distree/from.ts"
+import insert from "distree/insert.ts"
 
 Deno.test("insert", async () => {
 	const assertSeparateButSameShape = (a: unknown) => (b: unknown) => {

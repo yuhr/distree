@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: CC0-1.0
 
-import type Distree from "../Distree.ts"
-import from from "../from.ts"
 import { assertThrows, assertEquals } from "@std/assert"
+import type Distree from "distree/Distree.ts"
+import from from "distree/from.ts"
 
 Deno.test("from", async () => {
 	const init = { foo: { bar: { baz: "qux" } } }

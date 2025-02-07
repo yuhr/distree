@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: CC0-1.0
 
-import from from "../from.ts"
-import transform from "../transform.ts"
 import { assertEquals } from "@std/assert"
+import from from "distree/from.ts"
+import transform from "distree/transform.ts"
 
 Deno.test("transform", async () => {
 	const init = { foo: { bar: { baz: "qux" } } }

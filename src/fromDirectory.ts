@@ -50,11 +50,11 @@ const fromDirectory: {
 		filter === undefined
 			? distree
 			: typeof filter === "function"
-			? await transformAsync(distree, filter)
-			: transform(distree, value => {
-					if (value.match(filter)) return value
-					else throw undefined
-			  })
+				? await transformAsync(distree, filter)
+				: transform(distree, value => {
+						if (value.match(filter)) return value
+						else throw undefined
+					})
 	) as Distree<F extends string | RegExp | undefined ? string : T>
 }
 

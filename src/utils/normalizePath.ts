@@ -1,12 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 
 /**
- * @license MPL-2.0
- * @module
- */
-
-/**
  * @private
+ * @internal
  */
 const normalizePath = (path: string) => {
 	const pathSlashesCollapsed = path.replaceAll(/\/+/g, "/")
