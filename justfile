@@ -9,9 +9,3 @@ setup:
 
 test:
 	cd tests && deno test --allow-net --allow-read --unstable-unsafe-proto
-
-bundle:
-	deno run -A bundle.ts
-
-pack: bundle
-	cd dist && pnpm pack
