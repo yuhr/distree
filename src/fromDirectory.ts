@@ -4,10 +4,11 @@ import type Distree from "./Distree.ts"
 import from from "./from.ts"
 import transform from "./transform.ts"
 import transformAsync from "./transformAsync.ts"
-import { readdir, lstat } from "https://esm.sh/jsr/@cross/fs@0.1.11"
-import { resolve } from "https://esm.sh/jsr/@std/path@1.0.8/resolve.ts"
 
 const rec = async (path: string): Promise<typeof content> => {
+	const { lstat } = await import("https://esm.sh/jsr/@cross/fs@0.1.11/stat")
+	const { readdir } = await import("https://esm.sh/jsr/@cross/fs@0.1.11/ops")
+	const { resolve } = await import("https://esm.sh/jsr/@std/path@1.0.8/resolve")
 	const content: { [key: string]: typeof content | string } = Object.create(null)
 	for (const pathItemRelative of await readdir(path)) {
 		const pathItem = resolve(path, pathItemRelative)
