@@ -28,7 +28,6 @@ const has = <T>(distree: Distree<T>, path: string): boolean => {
 	const current = locate(distree)
 	const absolute = normalizePath(current + "/" + path)
 	const components = absolute.split(/\/+/).slice(1)
-	console.log(current, absolute, components)
 	return rec(components, distree["/"])
 }
 
