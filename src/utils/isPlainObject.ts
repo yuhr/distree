@@ -5,9 +5,15 @@
  * @internal
  */
 const isPlainObject = (value: unknown): value is object => {
-	return (
-		typeof value === "object" && value !== null && Object.getPrototypeOf(value) === Object.prototype
-	)
+	if (typeof value === "object" && value !== null) {
+		const prototype = Object.getPrototypeOf(value)
+		switch (prototype) {
+			case Object.prototype:
+			case null:
+				return true
+		}
+	}
+	return false
 }
 
 export { isPlainObject }

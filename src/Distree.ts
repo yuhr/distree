@@ -85,13 +85,18 @@ const iterate = function* <T>(
 const rec = <T>(
 	content: DistreeInternal.Initializer<T>,
 	parent: DistreeInternal<T> | undefined,
+	memo: Map<DistreeInternal.Initializer<T>, DistreeInternal<T>> = new Map(),
 ): DistreeInternal<T> => {
+	const existing = memo.get(content)
+	if (existing) return existing
+
 	const distree = new Proxy<DistreeInternal<T>>(Object.create(null) as DistreeInternal<T>, {
 		get: (target, key, receiver) => {
 			if (typeof key === "string") return resolve(target, key)
 			else return Reflect.get(target, key, receiver)
 		},
 	})
+	memo.set(content, distree)
 
 	// Populate as a distree
 	Object.defineProperties(distree, {
@@ -109,7 +114,7 @@ const rec = <T>(
 	// Copy contents into the new distree
 	for (const [key, value] of Object.entries(content)) {
 		if (key.search(/\/+/) !== -1) throw new Error(`Keys are not allowed to contain slashes: ${key}`)
-		if (isPlainObject(value)) distree[key] = rec(value, distree)
+		if (isPlainObject(value)) distree[key] = rec(value, distree, memo)
 		else distree[key] = value
 	}
 
