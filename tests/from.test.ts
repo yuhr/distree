@@ -40,7 +40,10 @@ Deno.test("prevent prototype pollution", async () => {
 	assertEquals({}.polluted, undefined)
 })
 
-Deno.test("reject non plain objects", async () => {
+Deno.test("rejects non plain objects", async () => {
 	assertThrows(() => from({ __proto__: { polluted: 0 } }))
-	assertThrows(() => from(Object.create(null)))
+})
+
+Deno.test("accepts null prototype objects", async () => {
+	from(Object.create(null))
 })

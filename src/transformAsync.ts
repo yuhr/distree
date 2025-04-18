@@ -15,7 +15,10 @@ import insert from "./insert.ts"
  */
 const transformAsync = async <T, U>(
 	distree: Distree<T>,
-	transformer: (value: T, path: string) => Promise<Distree.ItemInitializer<U>>,
+	transformer: (
+		value: T,
+		path: string,
+	) => Promise<Distree.ItemInitializer<U>> | Distree.ItemInitializer<U>,
 ): Promise<Distree<U>> => {
 	return (
 		await Promise.all(

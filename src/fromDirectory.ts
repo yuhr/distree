@@ -5,58 +5,91 @@ import from from "./from.ts"
 import transform from "./transform.ts"
 import transformAsync from "./transformAsync.ts"
 
-const rec = async (path: string): Promise<typeof content> => {
-	const { lstat } = await import("https://esm.sh/jsr/@cross/fs@0.1.11/stat")
-	const { readdir } = await import("https://esm.sh/jsr/@cross/fs@0.1.11/ops")
-	const { resolve } = await import("https://esm.sh/jsr/@std/path@1.0.8/resolve")
-	const content: { [key: string]: typeof content | string } = Object.create(null)
-	for (const pathItemRelative of await readdir(path)) {
-		const pathItem = resolve(path, pathItemRelative)
-		const item = await lstat(pathItem, {})
-		if (item.isFile()) {
-			const [key, value] = [pathItemRelative, pathItem]
-			content[key] = value
-		} else if (item.isDirectory()) {
-			const [key, value] = [pathItemRelative, await rec(pathItem)]
-			content[key] = value
-		} else {
-			// TODO: handle symlinks (breaking change)
-		}
+namespace fromDirectory {
+	export type Ls = (url: URL) => AsyncIterable<LsEntry>
+	export type LsEntry = {
+		type: "file" | "directory"
+		name: string
+		url: URL
 	}
-
-	Object.setPrototypeOf(content, Object.prototype)
-	return content
 }
 
-const fromDirectory: {
-	(path: string): Promise<Distree<string>>
-	(path: string, filter: string | RegExp): Promise<Distree<string>>
-	<T>(
-		path: string,
-		transform: (value: string, path: string) => Promise<Distree.ItemInitializer<T>>,
-	): Promise<Distree<T>>
-} = async <
-	T,
-	F extends
-		| string
-		| RegExp
-		| undefined
-		| ((value: string, path: string) => Promise<Distree.ItemInitializer<T>>),
->(
-	path: string,
-	filter?: F,
-): Promise<Distree<F extends string | RegExp | undefined ? string : T>> => {
-	const distree = from(await rec(path)) as Distree<string>
-	return (
-		filter === undefined
-			? distree
-			: typeof filter === "function"
-				? await transformAsync(distree, filter)
-				: transform(distree, value => {
-						if (value.match(filter)) return value
-						else throw undefined
-					})
-	) as Distree<F extends string | RegExp | undefined ? string : T>
+type Directory = { [entry: string]: Directory | URL }
+
+const enumerateFilesRecursively = async (
+	url: URL,
+	ls: fromDirectory.Ls,
+	memo: Map<string, Directory> = new Map(),
+): Promise<Directory> => {
+	const existing = memo.get(url.href)
+	if (existing) return existing
+	const directory: Directory = Object.create(null)
+	memo.set(url.href, directory)
+	for await (const entry of ls(url)) {
+		console.log(`Processing ${entry.type} ${entry.url.href}`)
+		switch (entry.type) {
+			case "file":
+				{
+					directory[entry.name] = entry.url
+				}
+				break
+			case "directory":
+				{
+					const existing = memo.get(entry.url.href)
+					if (existing) directory[entry.name] = existing
+					else {
+						const subdirectory = await enumerateFilesRecursively(entry.url, ls, memo)
+						directory[entry.name] = subdirectory
+						memo.set(entry.url.href, subdirectory)
+					}
+				}
+				break
+		}
+	}
+	return directory
+}
+
+const lsDefault: fromDirectory.Ls = async function* (url) {
+	const { lstat, readdir, realpath } = await import("node:fs/promises")
+	for await (const name of await readdir(url)) {
+		let urlEntry = new URL(`${url.href}/${name}`)
+		let entry = await lstat(urlEntry)
+		while (entry.isSymbolicLink()) {
+			urlEntry = new URL(await realpath(urlEntry), urlEntry)
+			entry = await lstat(urlEntry)
+		}
+		const type = entry.isFile() ? "file" : entry.isDirectory() ? "directory" : undefined
+		if (!type) throw new Error(`Unknown entry type of \`${urlEntry.href}\``)
+		yield { url: urlEntry, type, name }
+	}
+}
+
+const fromDirectory = async <T = URL>(
+	url: URL,
+	options: {
+		filter?: string | RegExp | undefined
+		transformer?:
+			| ((
+					value: URL,
+					path: string,
+			  ) => Promise<Distree.ItemInitializer<T>> | Distree.ItemInitializer<T>)
+			| undefined
+		ls?: fromDirectory.Ls | undefined
+	} = {},
+): Promise<Distree<T>> => {
+	const { filter, transformer, ls } = options
+	const directory: Distree.Initializer<URL> = await enumerateFilesRecursively(url, ls ?? lsDefault)
+	const distreeRaw = from(directory)
+	const distreeFiltered = filter
+		? transform(distreeRaw, value => {
+				if (value.href.match(filter)) return value
+				else throw undefined
+			})
+		: distreeRaw
+	const distreeTransformed = transformer
+		? await transformAsync(distreeFiltered, transformer)
+		: distreeFiltered
+	return distreeTransformed as Distree<T>
 }
 
 export default fromDirectory

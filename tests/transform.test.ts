@@ -16,3 +16,24 @@ Deno.test("transform", async () => {
 	const transformed = transform(distree, value => "quux")
 	assertEquals(transformed["foo/bar/baz"], "quux")
 })
+
+Deno.test("prevent prototype pollution", async () => {
+	const distree = transform(
+		from({
+			["__proto__"]: undefined,
+			"Hello, World!": undefined,
+			constructor: { prototype: undefined },
+		}),
+		() => ({
+			polluted: true,
+		}),
+	)
+
+	assertEquals(
+		Deno.inspect(distree),
+		`{\n  ['__proto__']: { polluted: true },\n  "Hello, World!": { polluted: true },\n  constructor: { prototype: { polluted: true } }\n}`,
+	)
+
+	// @ts-expect-error: testing the prototype
+	assertEquals({}.polluted, undefined)
+})

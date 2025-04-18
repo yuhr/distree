@@ -2,23 +2,20 @@
 
 import { assertExists, assertEquals, assertFalse } from "@std/assert"
 import fromDirectory from "distree/fromDirectory.ts"
-import transform from "distree/transform.ts"
 
 Deno.test("fromDirectory", async () => {
-	const distree = await fromDirectory("../src", /Distree/)
+	const distree = await fromDirectory(new URL(import.meta.resolve("../src")), {
+		filter: /Distree/,
+	})
 	assertExists(distree["isDistree.ts"])
 	assertExists(distree["Distree.ts"])
 	assertFalse(distree["from.ts"])
 })
 
-Deno.test("prevent prototype pollution", async () => {
-	const distree = transform(await fromDirectory("fromDirectory"), () => ({ polluted: true }))
-
+Deno.test("handles recursive symbolic links", async () => {
+	const distree = await fromDirectory(new URL(import.meta.resolve("./fromDirectory")))
 	assertEquals(
-		Deno.inspect(distree),
-		`{\n  ['__proto__']: { polluted: true },\n  "Hello, World!": { polluted: true },\n  constructor: { prototype: { polluted: true } }\n}`,
+		distree["linkToParent/fromDirectory/linkToCurrent/__proto__"]?.href,
+		import.meta.resolve("./fromDirectory/__proto__"),
 	)
-
-	// @ts-expect-error: testing the prototype
-	assertEquals({}.polluted, undefined)
 })
