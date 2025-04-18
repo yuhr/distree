@@ -4,6 +4,7 @@ import type Distree from "./Distree.ts"
 import ancestors from "./ancestors.ts"
 import from from "./from.ts"
 import fromDirectory from "./fromDirectory.ts"
+import has from "./has.ts"
 import insert from "./insert.ts"
 import isDistree from "./isDistree.ts"
 import locate from "./locate.ts"
@@ -16,6 +17,7 @@ const index = Object.freeze({
 	ancestors,
 	from,
 	fromDirectory,
+	has,
 	insert,
 	isDistree,
 	locate,
