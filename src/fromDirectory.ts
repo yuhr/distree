@@ -26,7 +26,6 @@ const enumerateFilesRecursively = async (
 	const directory: Directory = Object.create(null)
 	memo.set(url.href, directory)
 	for await (const entry of ls(url)) {
-		console.log(`Processing ${entry.type} ${entry.url.href}`)
 		switch (entry.type) {
 			case "file":
 				{
