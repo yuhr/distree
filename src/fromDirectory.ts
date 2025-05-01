@@ -51,7 +51,7 @@ const enumerateFilesRecursively = async (
 const lsDefault: fromDirectory.Ls = async function* (url) {
 	const { lstat, readdir, realpath } = await import("node:fs/promises")
 	for await (const name of await readdir(url)) {
-		let urlEntry = new URL(`${url.href}/${name}`)
+		let urlEntry = new URL(name, url)
 		let entry = await lstat(urlEntry)
 		while (entry.isSymbolicLink()) {
 			urlEntry = new URL(await realpath(urlEntry), urlEntry)
