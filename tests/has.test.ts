@@ -1,6 +1,6 @@
-import has from "../src/has.ts"
 import { assertEquals } from "@std/assert"
 import from from "distree/from.ts"
+import has from "distree/has.ts"
 
 Deno.test("has", async () => {
 	const distree = from({ foo: { bar: { baz: "qux" } } })
